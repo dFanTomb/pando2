@@ -70,3 +70,19 @@
             <%= line_chart @airmeasures.where(measure_type: measure_type).group(:room_name, :timestamps).order(room_id: :asc).maximum(:measure_float), code: true, library: { datasets: { pointStyle: 'line' } } %>
           </div>
         <% end %>
+
+
+<div class="container">
+      <h2>PandO2</h2>
+        <% ['CO2', 'HUM', 'TMP'].each do |measure_type| %>
+          <h2><%= "#{measure_type}" %></h2>
+
+          <div class="chart">
+            <%= line_chart @airmeasures.where(measure_type: measure_type).group(:room_name, :timestamps).order(room_id: :asc).maximum(:measure_float), library: { datasets: { pointStyle: 'line' } } %>
+          </div>
+        <% end %>
+    </div>
+
+    <div style="margin-left:5%;margin-right:5%">
+        <canvas id="myLineChart" style="width:100%;max-width:500px"></canvas>
+    </div>
