@@ -1,0 +1,2 @@
+class Airmeasure < ApplicationRecord
+end

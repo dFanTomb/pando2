@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>PandO2</h2>
+        <% ['CO2', 'HUM', 'TMP'].each do |measure_type| %>
+          <h2><%= "#{measure_type}" %></h2>
+
+          <div class="chart">
+            <%= line_chart @airmeasures.where(measure_type: measure_type).group(:room_name, :timestamps).order(room_id: :asc).maximum(:measure_float), library: { datasets: { pointStyle: 'line' } } %>
+          </div>
+        <% end %>
+    </div>
+  </body>
+</html>
