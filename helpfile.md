@@ -72,17 +72,75 @@
         <% end %>
 
 
-<div class="container">
+https://github.com/railsjazz/rails_charts#line-chart
+rails charts
+
+
+
+<!--
+    <div data-controller="chart" data-chart-data="<%= @airmeasures.to_json %>">
+      <canvas data-target="chart.canvas"></canvas>
+    </div>
+    -->
+
+  <!--
+    <%= line_chart Airmeasure.group(:measure_float).count, class: 'box',
+      options: {
+        title: {
+          text: "People count by age",
+          left: 'center'
+        },
+      }
+    %>
+  -->
+
+  <!--
+    <div id="airmeasure-chart-container" data-controller="chart" data-metric="YourMetric" data-unit="YourUnit">
+      <canvas id="airmeasure-chart" width="400" height="400"></canvas>
+    </div>
+
+    <div data-metrics-type data-metrics="<%= @metrics.to_json %>"></div>
+  -->
+
+<!--
+    <div class="container">
       <h2>PandO2</h2>
         <% ['CO2', 'HUM', 'TMP'].each do |measure_type| %>
           <h2><%= "#{measure_type}" %></h2>
 
-          <div class="chart">
-            <%= line_chart @airmeasures.where(measure_type: measure_type).group(:room_name, :timestamps).order(room_id: :asc).maximum(:measure_float), library: { datasets: { pointStyle: 'line' } } %>
-          </div>
+          <%= line_chart @airmeasures.where(measure_type: measure_type).group(:room_name, :timestamps).order(room_id: :asc).maximum(:measure_float), code: true, library: { datasets: { pointStyle: 'line' } } %>
         <% end %>
     </div>
+-->
 
-    <div style="margin-left:5%;margin-right:5%">
-        <canvas id="myLineChart" style="width:100%;max-width:500px"></canvas>
-    </div>
+
+  <%= line_chart Airmeasure.order(timestamps: :asc).group(:measure_float).count,
+        class: 'box',
+            code: false,
+            options: {
+                title: {
+                  text: "PandO2 Chart test",
+                  left: 'center',
+                },
+                xAxis: {
+                  type: "category",
+                  # data: []
+                },
+                yAxis: {
+                  type: "value"
+                },
+                # series: {
+                #     data: :measure_float,
+                #     type: "line",
+                #     smooth: true
+                # }
+            }
+      %>
+
+
+      # this shows all the chart line
+      <div class="container">
+        <%= line_chart Airmeasure.pluck(:timestamps, :measure_float).map do |timestamps, measure_float|
+        {timestamps: timestamps, measure_float: measure_float}
+        end %>
+      </div>
